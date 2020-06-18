@@ -4,7 +4,18 @@
 
 #include "stfcnn.h"
 
-
+/* In this implementation we treat the bias term for the calculations
+   as a node with a value equal to the bias (in this case, 1) and add
+   it to the end of each layer. This node is special in that no node
+   from the previous layer connects to it, but it does connect to each
+   node in the next layer.
+   This makes the code a bit ugly since the loops have to watch out
+   for the last node in each layer except the last one and is
+   (hopefully not) a source of mistakes and bugs, but it's preferable
+   than to overcomplicate the calculations having to add the bias
+   manually later, and since the use cases of this net usually run
+   incomplete data sets to save time and processing power this
+   approach seems to work fine. */
 struct stfcnn create_stfcnn(int layers, int *l)
 {
 	struct stfcnn network;
